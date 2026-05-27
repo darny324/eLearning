@@ -1,0 +1,6 @@
+{
+  "theme": "default",
+  "alias": "@/src",
+  "framework": "Vite",
+  "mainCssFile": "src/index.css"
+}
