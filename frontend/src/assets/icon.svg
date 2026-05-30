@@ -1,0 +1,42 @@
+
+<svg xmlns="http://w3.org" width="512" height="512" viewBox="0 0 512 512">
+  <!-- 1. Simple Background (Solid Green) -->
+  <rect x="0" y="0" width="512" height="512" fill="#56ab2f" />
+
+  <!-- 2. White Card Container -->
+  <rect x="64" y="64" width="384" height="384" rx="64" fill="#ffffff" />
+
+  <!-- 3. Computer Screen (Solid Blue) -->
+  <rect x="132" y="140" width="248" height="170" rx="16" fill="#1e272e" />
+  <rect x="144" y="152" width="224" height="130" rx="8" fill="#0072ff" />
+  
+  <!-- 4. Home Button -->
+  <circle cx="256" cy="296" r="4" fill="#718093" />
+
+  <!-- 5. Lightbulb (Solid Yellow) -->
+  <!-- Bulb Background -->
+  <path d="M 220 185 A 45 45 0 1 1 292 185 Q 292 225 275 235 L 275 250 L 237 250 L 237 235 Q 220 225 220 185 Z" fill="#ffce00" />
+  
+  <!-- Bulb Base (Dark Grey) -->
+  <rect x="241" y="254" width="30" height="6" rx="3" fill="#1e272e" />
+  <rect x="244" y="264" width="24" height="6" rx="3" fill="#1e272e" />
+  <circle cx="256" cy="274" r="4" fill="#1e272e" />
+  
+  <!-- Bulb Filament (Line) -->
+  <path d="M 248 235 L 248 210 Q 248 200 256 200 Q 264 200 264 210 L 264 235" fill="none" stroke="#1e272e" stroke-width="4" stroke-linecap="round" />
+
+  <!-- 6. Graduation Cap (Solid Cyan/Blue) -->
+  <path d="M 216 140 L 216 152 Q 256 164 296 152 L 296 140 Z" fill="#00b4db" stroke="#1e272e" stroke-width="6" stroke-linejoin="round" />
+  <polygon points="256,110 330,135 256,160 182,135" fill="#00b4db" stroke="#1e272e" stroke-width="6" stroke-linejoin="round" />
+  
+  <!-- Tassel -->
+  <line x1="256" y1="135" x2="315" y2="155" stroke="#1e272e" stroke-width="4" stroke-linecap="round" />
+  <line x1="315" y1="155" x2="315" y2="175" stroke="#1e272e" stroke-width="4" stroke-linecap="round" />
+  <circle cx="315" cy="178" r="4" fill="#1e272e" />
+
+  <!-- 7. Mouse Cursor -->
+  <polygon points="305,230 330,240 320,245 330,258 323,261 313,248 308,252" fill="#1e272e" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" />
+
+  <!-- 8. Text (Standard Font) -->
+  <text x="256" y="415" font-family="Arial, sans-serif" font-size="46" font-weight="bold" fill="#112233" text-anchor="middle">E-LEARN</text>
+</svg>

@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState, type ChangeEventHandler } from 'react';
 import NotiImg from '../assets/notification.png'
 import CourseIcon from '../assets/online-learning.png'
-import { Button, Card, Progress, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
+import { Avatar, Badge, Button, Card, Dropdown, DropdownItem, Progress, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts'
 import { CardHeader } from '@/components/tailgrids/core/card';
 import ComputerCourseIcon from '../assets/course.webp'
-import type { ComponentRef, ElementRef } from 'react'
+import type { ComponentRef } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faBars, faCamera, faDashboard, faEdit, faHamburger, faMessage, faPerson, faUser } from '@fortawesome/free-solid-svg-icons'
+import RightSidebar from '@/navigation/RightSidebar';
 
 
 interface SwitchProps {
@@ -84,32 +87,32 @@ const ActivityBarChart = () => {
         <div className='flex gap-5 sm:gap-10'>
 
           <div className='h-[250px] transition hover:scale-105 w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] animate-slide-up origin-bottom w-2 bg-blue-500 self-end rounded-full'>
             </div>
           </div>
 
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] animate-slide-up origin-bottom w-2 bg-blue-500 self-end rounded-full'>
             </div>
           </div>
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] animate-slide-up origin-bottom w-2 bg-blue-500 self-end rounded-full'>
             </div>
           </div>
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full animate-slide-up origin-bottom'>
             </div>
           </div>
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full animate-slide-up origin-bottom'>
             </div>
           </div>
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full animate-slide-up origin-bottom'>
             </div>
           </div>
           <div className='h-[250px] w-2 bg-gray-200 rounded-full flex'>
-            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full'>
+            <div className='h-[50%] w-2 bg-blue-500 self-end rounded-full animate-slide-up origin-bottom'>
             </div>
           </div>
         </div>
@@ -295,6 +298,10 @@ const CourseCard = () => {
           <span className='text-sm text-gray-400'>Software Development</span>
         </div>
       </div>
+
+      <div className='flex md:hidden'>
+        <Button>Continue</Button>
+      </div>
       <div className='absolute transition ease-in-out
         left-28 top-52 hidden group-hover:block
         '>
@@ -307,31 +314,12 @@ const CourseCard = () => {
 const IncompleteCourses = () => {
   const scrollRef = useRef<ComponentRef<'div'>>(null);
 
-  const handleScroll = (movement: 'left' | 'right') => {
-    if (scrollRef.current) {
-      if (movement === 'left')
-        scrollRef.current.scrollLeft -= 350 + 16;
-      else scrollRef.current.scrollLeft += 350 + 16;
-    }
-
-  }
 
 
   return (
     <div className=''>
       <div className='flex justify-between xl:max-w-274.5 xl:px-2 items-center'>
         <h1 className='font-semibold text-xl my-4'>Continue Courses</h1>
-
-        <div className='xl:flex hidden gap-4 text-2xl text-gray-400'>
-          <button
-            onClick={() => { handleScroll('left'); }}
-            className='border border-gray-300 hover:bg-gray-200 w-8 h-8 
-            rounded-full flex justify-center items-center'> <span> &larr; </span> </button>
-          <button
-            onClick={() => { handleScroll('right'); }}
-            className='border border-gray-300 hover:bg-gray-200 w-8 h-8
-            rounded-full flex justify-center items-center'> <span> &rarr; </span> </button>
-        </div>
       </div>
       <div ref={scrollRef} className='grid grid-cols-1 md:grid-cols-2
         xl:grid-cols-3 gap-5
@@ -389,9 +377,157 @@ const AssignmentTable = () => {
   )
 }
 
+const Profile = () => {
+  return (
+    <div className='py-4'>
+      <h1 className='font-bold text-xl mb-4'>Your Profile</h1>
+
+      <div className='w-full flex flex-col items-center gap-4'>
+        <div>
+          <img src={CourseIcon}
+            className='w-28 h-28 rounded-full object-cover'
+          />
+        </div>
+        <div className='flex flex-col items-center gap-1'>
+          <p>James Taylor</p>
+          <p className='text-sm text-gray-400'>+959-792-380-380</p>
+          <p className='text-sm text-gray-400'>james@gmail.com</p>
+          <Badge color='success' className='rounded-lg'>student</Badge>
+        </div>
+
+        <div className='flex gap-4'>
+          <div className='text-gray-400 border border-gray-400 rounded-full
+            w-10 h-10 flex items-center justify-center hover:bg-gray-200 hover:scale-105 active:scale-95 transition ease-in-out duration-400
+            '>
+            <FontAwesomeIcon icon={faUser} />
+          </div>
+          <div className='text-gray-400 border border-gray-400 rounded-full
+            w-10 h-10 flex items-center justify-center hover:bg-gray-200 hover:scale-105 active:scale-95 transition ease-in-out duration-400
+            '>
+            <FontAwesomeIcon icon={faEdit} />
+          </div >
+          <div className='text-gray-400 border border-gray-400 rounded-full
+            w-10 h-10 flex items-center justify-center hover:bg-gray-200 hover:scale-105 active:scale-95 transition ease-in-out duration-400
+            '>
+            <FontAwesomeIcon icon={faCamera} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const TeacherTable = () => {
+  return (
+    <div className='my-8 '>
+      <h1 className='text-2xl font-semibold'>Your Mentor</h1>
+      <ul className='flex flex-col mt-2'>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+        <li className='flex justify-between py-4 border-b border-b-gray-400'>
+          <div className='flex items-center gap-4'>
+            <Avatar img={CourseIcon} rounded />
+            <div className='flex flex-col'>
+              <span>Johnny Harris</span>
+              <span className='text-gray-400 text-sm'>johnny@gmail.com</span>
+            </div>
+          </div>
+          <div>
+            <Button className='rounded-full bg-purple-500'>Explore</Button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  )
+}
+
 const DashBoard = () => {
 
   const [darkMode, setDarkMode] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
@@ -410,7 +546,16 @@ const DashBoard = () => {
             <span className="text-gray-400 text-sm">Let learn somethig new today</span>
           </span>
 
-          <div className='flex gap-2 '>
+          <div className='md:hidden block'>
+            <div onClick={() => setIsOpen(!isOpen)}>
+              <FontAwesomeIcon icon={faBars} />
+            </div>
+            <RightSidebar
+              isOpen={isOpen}
+              onClose={() => { setIsOpen(false) }}
+            />
+          </div>
+          <div className='md:flex gap-2 hidden'>
             <div>
               <Switch checked={darkMode}
                 onChange={() => { setDarkMode(!darkMode) }}
@@ -430,12 +575,18 @@ const DashBoard = () => {
             </button>
           </div>
         </div>
+        <div className='block sm:hidden'>
+          <Profile />
+        </div>
         <Overview />
         <Activity />
         <IncompleteCourses />
         <AssignmentTable />
       </div>
-      <div className="hidden xl:block xl:flex-2 xl:bg-gray-400"></div>
+      <div className="hidden xl:block xl:flex-2">
+        <Profile />
+        <TeacherTable />
+      </div>
     </div>
   )
 }
