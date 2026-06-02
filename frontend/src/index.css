@@ -18,5 +18,19 @@
       transform: scaleY(1.0);
     }
   }
+
+  --animate-slide-in-up: slide-in-up 1s ease-in-out forwards; 
+
+  @keyframes slide-in-up {
+    from {
+      transform: translateY(100px); 
+    }
+
+    to {
+      transform: translateY(0px); 
+    }
+  }
+
+
 }
 

@@ -9,6 +9,9 @@ import Chats from "./chats/Chats.tsx";
 import DirectChat from "./chats/DirectChat.tsx";
 
 
+// this is for loaders 
+import { chatLoader } from './loaders/loaders.tsx'
+
 const router = createBrowserRouter([
   {
     path: '',
@@ -40,6 +43,7 @@ const router = createBrowserRouter([
           }, {
             path: 'chats',
             Component: Chats,
+            loader: chatLoader,
           }, {
             path: 'chats/:chatId',
             Component: DirectChat,
