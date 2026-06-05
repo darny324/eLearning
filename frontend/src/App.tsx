@@ -1,25 +1,194 @@
 import './App.css'
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faBlog, faCircleInfo, faComputer, faHome, faPhone, faSchool, faSignIn, faSigning, faTasks, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react';
+import { faEnvelope, faPaperPlane, faBars, faBlog, faCircleInfo, faComputer, faHome, faPhone, faSignIn, faTasks, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react';
+import WebsiteIcon from './assets/icon2.png'
+
+// Note: Ensure you have FontAwesome installed: npm install @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons @fortawesome/free-solid-svg-icons
+import { faFacebook, faTwitter, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import type { FooterSection } from './types';
+
+function Footer(): React.JSX.Element {
+  const [email, setEmail] = useState<string>('');
+
+  const footerNavigation: FooterSection[] = [
+    {
+      title: 'Explore',
+      links: [
+        { label: 'Popular Courses', href: '#courses' },
+        { label: 'Learning Tracks', href: '#tracks' },
+        { label: 'Free Resources', href: '#freebies' },
+        { label: 'Certificates', href: '#credentials' },
+      ],
+    },
+    {
+      title: 'Community',
+      links: [
+        { label: 'Student Forums', href: '#forums' },
+        { label: 'Hackathons', href: '#hackathons' },
+        { label: 'Discord Server', href: '#discord' },
+        { label: 'Success Stories', href: '#testimonials' },
+      ],
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About SkillGrid', href: '#about' },
+        { label: 'Become a Teacher', href: '#careers' },
+        { label: 'Affiliate Program', href: '#affiliate' },
+        { label: 'Contact Support', href: '#support' },
+      ],
+    },
+  ];
+
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    if (!email) return;
+    alert(`Subscribed ${email} to SkillGrid updates!`);
+    setEmail('');
+  };
+
+  return (
+    <footer className="w-full bg-slate-950 border-t border-slate-800 text-slate-400 px-6 pt-16 pb-8 md:px-12 lg:px-24">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Top Content Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 xl:gap-12 pb-12 border-b border-slate-800/80">
+
+          {/* Brand Info Grid Column */}
+          <div className="lg:col-span-2 space-y-4">
+            <span className="text-2xl font-extrabold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent tracking-tight block">
+              SkillGrid
+            </span>
+            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+              Empowering learners worldwide through scalable, high-yield digital credentials and interactive, expert-guided education structures.
+            </p>
+            {/* Social Network Icon Strips */}
+            <div className="flex items-center space-x-4 pt-2">
+              <a href="#twitter" aria-label="Twitter" className="hover:text-white transition-colors duration-200">
+                <FontAwesomeIcon icon={faTwitter} className="text-lg" />
+              </a>
+              <a href="#linkedin" aria-label="LinkedIn" className="hover:text-white transition-colors duration-200">
+                <FontAwesomeIcon icon={faLinkedin} className="text-lg" />
+              </a>
+              <a href="#facebook" aria-label="Facebook" className="hover:text-white transition-colors duration-200">
+                <FontAwesomeIcon icon={faFacebook} className="text-lg" />
+              </a>
+              <a href="#github" aria-label="GitHub" className="hover:text-white transition-colors duration-200">
+                <FontAwesomeIcon icon={faGithub} className="text-lg" />
+              </a>
+            </div>
+          </div>
+
+          {/* Map Section Navigation Arrays */}
+          {footerNavigation.map((section, index) => (
+            <div key={index} className="flex flex-col space-y-4">
+              <h4 className="text-sm font-bold text-white tracking-wider uppercase">
+                {section.title}
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                {section.links.map((link, idx) => (
+                  <li key={idx}>
+                    <a
+                      href={link.href}
+                      className="hover:text-pink-400 transition-colors duration-150 block w-max"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+        </div>
+
+        {/* Bottom Metadata Bar & Newsletter Row */}
+        <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-6">
+
+          {/* Quick Newsletter Module inside Footer */}
+          <form onSubmit={handleSubscribe} className="w-full max-w-md flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1 focus-within:border-slate-700 transition-colors duration-200">
+            <div className="pl-3 text-slate-500">
+              <FontAwesomeIcon icon={faEnvelope} className="text-sm" />
+            </div>
+            <input
+              type="email"
+              placeholder="Join our tech newsletter..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent text-sm text-white px-3 py-2 outline-none placeholder-slate-500"
+              required
+            />
+            <button
+              type="submit"
+              aria-label="Subscribe"
+              className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center aspect-square"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} className="text-xs" />
+            </button>
+          </form>
+
+          {/* Legal Copyright Disclaimers */}
+          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs text-slate-500 text-center lg:text-right">
+            <span>&copy; {new Date().getFullYear()} SkillGrid Inc. All rights reserved.</span>
+            <div className="space-x-4">
+              <a href="#privacy" className="hover:text-slate-400 transition-colors duration-150">Privacy Policy</a>
+              <a href="#terms" className="hover:text-slate-400 transition-colors duration-150">Terms of Service</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </footer>
+  );
+}
 
 
 const Header = () => {
 
+
+
   const [barOpen, setbarOpen] = useState(false);
   const isUser = false;
+
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 100)
+        setScrolled(true);
+      else setScrolled(false);
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    }
+  }, []);
+
   return (
-    <header className='flex justify-between bg-cyan-400 px-8 py-4 items-center
-      fixed w-full'>
+    <header className={`flex justify-between ${scrolled ? 'bg-transparent text-gray-500' : 'bg-slate-800 text-gray-500'} px-8 py-4 items-center
+      fixed w-full z-30 transition-colors duration-300 ease-out`}>
       <div>
-        <img />
-        <span className='text-pink-400 font-semibold text-2xl'>Skillgrid</span>
+        <img src={WebsiteIcon} className='w-10 h-10 inline object-cover rounded-full' />
+        <span className='text-pink-400 font-semibold text-2xl ml-2'>Skillgrid</span>
       </div>
 
-      <div className='gap-10 items-center text-white hidden md:flex'>
-        <NavLink to='home'>
-          Home
+      <div className='gap-10 items-center hidden md:flex'>
+        <NavLink to='home'
+          className={({ isActive }) => {
+            if (isActive) {
+              return `after:content-[''] after:w-full relative
+after:h-0.5 ${scrolled ? 'after:bg-cyan-400' : 'after:bg-white'} after:absolute after:bottom-0 after:left-0 
+after:animate-stretch-x after:origin-center after:transition
+`
+            } else {
+              return '';
+            }
+          }}
+        >
+          <span>Home</span>
         </NavLink>
 
         <NavLink to='courses'>
@@ -43,15 +212,18 @@ const Header = () => {
         </NavLink>
 
         <NavLink to='login'
-          className='px-8 py-2 rounded-full bg-white 
-          font-semibold text-gray-400 hover:bg-gray-50'
+          className={
+            `px-8 py-2 rounded-full bg-blue-500 
+            font-semibold text-white`
+          }
         >
           Login
         </NavLink>
 
         <NavLink to='sign_up'
-          className='px-8 py-2 rounded-full bg-gray-50/40 
-          hover:bg-gray-50/30'
+          className={`px-8 py-2 rounded-full 
+bg-gray-700 text-white
+`}
         >
           Sign Up
         </NavLink>
@@ -63,13 +235,14 @@ const Header = () => {
             setbarOpen(true);
           }}
         >
-          <FontAwesomeIcon icon={faBars} className='text-white
-            hover:text-gray-50' />
+          <FontAwesomeIcon icon={faBars}
+            className={`${scrolled ? 'text-gray-500 hover:text-gray-400' : 'text-white text-gray-50'}`}
+          />
         </button>
       </div>
       {
         barOpen && <div className='absolute right-0 h-screen 
-          bg-gray-50 top-0 w-52 animate-slide-left
+          bg-slate-800 top-0 w-52 animate-slide-left md:hidden 
           flex flex-col items-start justify-between px-4 py-4'>
           <div className='flex flex-col gap-4 w-full items-start'>
             <button
@@ -161,7 +334,7 @@ const Header = () => {
             isUser ? <div>
               <div></div>
             </div>
-              : <div className='w-full flex flex-col gap-4 '>
+              : <div className='w-full flex flex-col gap-4 mb-12'>
                 <Link to='login'
                   className='px-4 py-2 rounded-lg bg-cyan-300 text-white w-full'>
                   Login
@@ -180,14 +353,6 @@ const Header = () => {
   )
 }
 
-const Footer = () => {
-
-  return (
-    <footer className='fixed bottom-0'>
-      footer
-    </footer>
-  )
-}
 
 function App() {
 
@@ -195,8 +360,9 @@ function App() {
     <div className='bg-white dark:bg-black text-black dark:text-white
       flex flex-col'>
       <Header />
-
-      <div className='flex-1'>
+      <div
+        className='mt-18'
+      >
         <Outlet></Outlet>
       </div>
       <Footer />
