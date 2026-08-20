@@ -1,7 +1,7 @@
 import './App.css'
-import { Link, NavLink, Outlet, useLocation } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faPaperPlane, faBars, faBlog, faCircleInfo, faComputer, faHome, faPhone, faSignIn, faTasks, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faPaperPlane, faBars, faCircleInfo, faComputer, faHome, faPhone, faSignIn, faXmark, faUser, faGaugeHigh, faRightFromBracket, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
 import WebsiteIcon from './assets/icon2.png'
 
@@ -151,7 +151,8 @@ const Header = () => {
 
 
   const [barOpen, setbarOpen] = useState(false);
-  const isUser = false;
+  const [isUser, setIsUser] = useState(() => localStorage.getItem('isUser') === 'true');
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -169,7 +170,7 @@ const Header = () => {
 
   return (
     <header className={`flex justify-between ${scrolled ? 'bg-transparent text-gray-500' : 'bg-slate-800 text-gray-500'} px-8 py-4 items-center
-      fixed w-full z-30 transition-colors duration-300 ease-out`}>
+       w-full z-30 transition-colors duration-300 ease-out`}>
       <div>
         <img src={WebsiteIcon} className='w-10 h-10 inline object-cover rounded-full' />
         <span className='text-pink-400 font-semibold text-2xl ml-2'>Skillgrid</span>
@@ -191,16 +192,19 @@ after:animate-stretch-x after:origin-center after:transition
           <span>Home</span>
         </NavLink>
 
-        <NavLink to='courses'>
-          Courses
-        </NavLink>
-
-        <NavLink to='careers'>
-          Careers
-        </NavLink>
-
-        <NavLink to='blogs'>
-          Blogs
+        <NavLink to='courses'
+          className={({ isActive }) => {
+            if (isActive) {
+              return `after:content-[''] after:w-full relative
+after:h-0.5 ${scrolled ? 'after:bg-cyan-400' : 'after:bg-white'} after:absolute after:bottom-0 after:left-0 
+after:animate-stretch-x after:origin-center after:transition
+`
+            } else {
+              return '';
+            }
+          }}
+        >
+          <span>Courses</span>
         </NavLink>
 
         <NavLink to='about'>
@@ -211,22 +215,48 @@ after:animate-stretch-x after:origin-center after:transition
           Contact us
         </NavLink>
 
-        <NavLink to='login'
-          className={
-            `px-8 py-2 rounded-full bg-blue-500 
-            font-semibold text-white`
-          }
-        >
-          Login
-        </NavLink>
-
-        <NavLink to='sign_up'
-          className={`px-8 py-2 rounded-full 
-bg-gray-700 text-white
-`}
-        >
-          Sign Up
-        </NavLink>
+        {isUser ? <div className='relative'>
+          <button
+            type='button'
+            aria-expanded={profileOpen}
+            aria-haspopup='menu'
+            aria-label='Open profile menu'
+            onClick={() => setProfileOpen(!profileOpen)}
+            className='flex items-center gap-2 rounded-full focus:outline-2 focus:outline-cyan-400'
+          >
+            <img src={WebsiteIcon} alt='Profile' className='cursor-pointer h-10 w-10 rounded-full object-cover ring-2 ring-cyan-300/70 hover:ring-cyan-400' />
+          </button>
+          {profileOpen && <div className='absolute right-0 top-12 z-50 w-48 rounded-lg border border-slate-200 bg-white py-2 text-slate-700 shadow-xl' role='menu'>
+            <Link to='account' role='menuitem' className='flex items-center gap-3 px-4 py-2.5 hover:bg-slate-100'>
+              <FontAwesomeIcon icon={faUser} className='w-4 text-slate-500' />
+              My Account
+            </Link>
+            <Link to='dashboard' role='menuitem' className='flex items-center gap-3 px-4 py-2.5 hover:bg-slate-100'>
+              <FontAwesomeIcon icon={faGaugeHigh} className='w-4 text-slate-500' />
+              Dashboard
+            </Link>
+            <button
+              type='button'
+              role='menuitem'
+              onClick={() => {
+                setIsUser(false);
+                localStorage.removeItem('isUser');
+                setProfileOpen(false);
+              }}
+              className='flex w-full items-center gap-3 px-4 py-2.5 text-left text-rose-600 hover:bg-rose-50'
+            >
+              <FontAwesomeIcon icon={faRightFromBracket} className='w-4' />
+              Sign Out
+            </button>
+          </div>}
+        </div> : <>
+          <NavLink to='login' className='rounded-full bg-blue-500 px-8 py-2 font-semibold text-white'>
+            Login
+          </NavLink>
+          <NavLink to='sign-up' className='rounded-full bg-gray-700 px-8 py-2 text-white'>
+            Sign Up
+          </NavLink>
+        </>}
       </div>
 
       <div className='block md:hidden'>
@@ -276,32 +306,7 @@ bg-gray-700 text-white
               <FontAwesomeIcon icon={faComputer} className='mr-2' />
               Courses
             </NavLink>
-            <NavLink to='careers'
-              className={({ isActive }) => {
-                if (isActive) {
-                  return `w-full px-4 py-2 rounded-lg bg-blue-500 text-white
-                    transition-opacity duration-300`
-                } else {
-                  return 'w-full px-4 py-2'
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faTasks} className='mr-2' />
-              Careers
-            </NavLink>
-            <NavLink to='blogs'
-              className={({ isActive }) => {
-                if (isActive) {
-                  return `w-full px-4 py-2 rounded-lg bg-blue-500 text-white
-                    transition-opacity duration-300`
-                } else {
-                  return 'w-full px-4 py-2'
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faBlog} className='mr-2' />
-              Blogs
-            </NavLink>
+            
             <NavLink to='about'
               className={({ isActive }) => {
                 if (isActive) {
@@ -331,8 +336,23 @@ bg-gray-700 text-white
 
           </div>
           {
-            isUser ? <div>
-              <div></div>
+            isUser ? <div className='w-full flex flex-col gap-4 mb-12'>
+              <NavLink to='account' className='w-full rounded-lg px-4 py-2'>
+                <img src={WebsiteIcon} alt='Profile' className='mr-2 inline-block h-8 w-8 rounded-full object-cover align-middle' />
+                My Account
+              </NavLink>
+              <button
+                type='button'
+                onClick={() => {
+                  setIsUser(false);
+                  localStorage.removeItem('isUser');
+                  setbarOpen(false);
+                }}
+                className='w-full rounded-lg px-4 py-2 text-left text-rose-400'
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} className='mr-2' />
+                Sign Out
+              </button>
             </div>
               : <div className='w-full flex flex-col gap-4 mb-12'>
                 <Link to='login'
@@ -361,7 +381,7 @@ function App() {
       flex flex-col'>
       <Header />
       <div
-        className='mt-18'
+        className='flex-1 min-h-screen bg-slate-950'
       >
         <Outlet></Outlet>
       </div>
