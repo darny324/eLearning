@@ -50,17 +50,17 @@ const MODULES_DATA: ModuleItem[] = [
 
 export default function Course(): React.JSX.Element {
   return (
-    <div className="min-h-screen bg-[#020617] text-white font-sans py-6 px-44 md:p-12">
-      <div className=" mx-auto space-y-16 flex flex-col items-center">
+    <div className="min-h-screen bg-[#020617] px-4 py-6 font-sans text-white sm:px-8 md:p-12 lg:px-16 xl:px-44">
+      <div className="mx-auto flex min-w-0 max-w-7xl flex-col items-center space-y-16">
         
         {/* Header Section */}
-        <header className="max-w-[1440px] grid md:grid-cols-2 gap-8 items-center border-b border-gray-800 pb-12">
-          <div className="bg-[#0f172a] self-stretch border border-gray-800 rounded-xl flex items-center justify-center text-gray-500 shadow-xl overflow-hidden">
+        <header className="grid w-full items-center gap-8 border-b border-gray-800 pb-12 md:grid-cols-2">
+          <div className="flex aspect-video w-full items-center justify-center self-stretch overflow-hidden rounded-xl border border-gray-800 bg-[#0f172a] text-gray-500 shadow-xl">
             <img className="w-full h-full object-cover" src="https://via.placeholder.com/600x400" alt="Course Image" />
           </div>
           
           <div className="space-y-6">
-            <h1 className="text-4xl font-bold tracking-tight">C Programming: A Fundamental Approach</h1>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">C Programming: A Fundamental Approach</h1>
             <p className="text-gray-400 text-sm">Dr. Sarah Mitchell</p>
             <p className="text-gray-300 text-sm leading-relaxed">
               Master the fundamentals of C programming. From variables, data types, and control structures to pointers, memory management, and file I/O — this course gives you a solid foundation in one of the most powerful and widely-used programming languages.
@@ -165,7 +165,7 @@ function ModuleAccordionItem({ module }: ModuleAccordionItemProps): React.JSX.El
       {/* Expandable Content Area */}
       <div 
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[400px] border-t border-gray-900 bg-[#050b14]' : 'max-h-0'
+          isOpen ? 'max-h-100 border-t border-gray-900 bg-[#050b14]' : 'max-h-0'
         }`}
       >
         <div className="p-5 space-y-4 text-sm text-gray-300 leading-relaxed border-b border-gray-900">
@@ -176,7 +176,7 @@ function ModuleAccordionItem({ module }: ModuleAccordionItemProps): React.JSX.El
             <h4 className="text-xs font-bold uppercase tracking-wider text-blue-400 mb-3 flex items-center gap-1.5">
               <Award size={14} /> What is included
             </h4>
-            <div className="grid grid-cols-3 gap-4 text-xs bg-[#0b1224] p-3 rounded-lg border border-gray-800">
+            <div className="grid grid-cols-1 gap-3 rounded-lg border border-gray-800 bg-[#0b1224] p-3 text-xs sm:grid-cols-3 sm:gap-4">
               <div className="flex items-center gap-2 text-gray-400">
                 <Video size={14} className="text-purple-400" />
                 <span><strong className="text-white">{module.included.videos}</strong> Videos</span>

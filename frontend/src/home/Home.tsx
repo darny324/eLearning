@@ -1,7 +1,7 @@
 
 // Note: Ensure you have FontAwesome installed: npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faSmile, faChalkboardTeacher, faArrowRight, faGraduationCap, faBookOpen, faAward, faCheckCircle, faBriefcase, faCertificate, faInfinity, faQuoteRight, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faSmile, faChalkboardTeacher, faArrowRight, faGraduationCap, faBookOpen, faAward, faCheckCircle, faBriefcase, faInfinity, faQuoteRight, faStar } from '@fortawesome/free-solid-svg-icons';
 
 
 import CourseCard from '../components/ui/CourseCard.tsx';

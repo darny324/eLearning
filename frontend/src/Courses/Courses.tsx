@@ -47,7 +47,7 @@ const Courses = () => {
 
     return (
         <div className="flex flex-col items-center justify-center gap-8 py-10 bg-slate-950">
-            <div className="flex w-full px-4 md:px-40 flex-col gap-8">
+            <div className="flex w-full md:px-44 px-4 flex-col gap-8">
                 <CourseSearchBar />
             </div>
 

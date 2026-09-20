@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model courses {
+  course_id         String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title             String             @db.VarChar(250)
+  user_id           String?            @db.Uuid
+  description       String?            @default("")
+  price             Decimal?           @default(0.0) @db.Decimal(10, 2)
+  course_image      String?            @default("") @db.VarChar(250)
+  course_level      course_level_type? @default(beginner)
+  learning_outcomes String[]
+  skills            String[]
+  tools             String[]
+  discount          Decimal?           @default(0.0) @db.Decimal(3, 2)
+  benefits          String?            @default("")
+  users             users?             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_users")
+  enrollment        enrollment[]
+  modules           modules[]
+  records           records[]
+  reviews           reviews[]
+}
+
+model enrollment {
+  enrollment_id                         BigInt    @id @default(autoincrement())
+  course_id                             String?   @db.Uuid
+  instructor_id                         String?   @db.Uuid
+  user_id                               String?   @db.Uuid
+  created_at                            DateTime? @default(now()) @db.Timestamptz(6)
+  courses                               courses?  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  users_enrollment_instructor_idTousers users?    @relation("enrollment_instructor_idTousers", fields: [instructor_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  users_enrollment_user_idTousers       users?    @relation("enrollment_user_idTousers", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, course_id], map: "unique_student_enrollment")
+}
+
+model lessons {
+  lesson_id    Int          @id @default(autoincrement())
+  title        String?      @default("") @db.VarChar(250)
+  lesson_link  String       @db.VarChar(250)
+  type         lesson_type? @default(text)
+  lesson_order Int
+  module_id    Int?
+  modules      modules?     @relation(fields: [module_id], references: [module_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lessons")
+  records      records[]
+}
+
+model modules {
+  module_id    Int       @id @default(autoincrement())
+  title        String    @db.VarChar(250)
+  description  String?   @default("")
+  course_id    String?   @db.Uuid
+  module_order Int
+  lessons      lessons[]
+  courses      courses?  @relation(fields: [course_id], references: [course_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_modules")
+  records      records[]
+}
+
+model records {
+  record_id         BigInt    @id @default(autoincrement())
+  course_id         String?   @db.Uuid
+  current_module_id Int?
+  current_lesson_id Int?
+  created_at        DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime? @default(now()) @db.Timestamptz(6)
+  user_id           String?   @db.Uuid
+  courses           courses?  @relation(fields: [course_id], references: [course_id], onDelete: Cascade, onUpdate: NoAction)
+  lessons           lessons?  @relation(fields: [current_lesson_id], references: [lesson_id], onUpdate: NoAction)
+  modules           modules?  @relation(fields: [current_module_id], references: [module_id], onDelete: Cascade, onUpdate: NoAction)
+  users             users?    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reviews {
+  review_id      BigInt   @id @default(autoincrement())
+  course_id      String?  @db.Uuid
+  user_id        String   @db.Uuid
+  rating         Int
+  review_message String?  @default("")
+  courses        courses? @relation(fields: [course_id], references: [course_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reviews")
+  users          users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, course_id], map: "unique_course_review")
+}
+
+model users {
+  user_id                                    String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                                       String       @db.VarChar(250)
+  email                                      String       @unique @db.VarChar(250)
+  password                                   String       @db.VarChar(250)
+  profile_image                              String?      @db.VarChar(250)
+  type                                       user_type?   @default(student)
+  courses_completed                          Int?         @default(0)
+  total_hours_learnt                         Int?         @default(0)
+  created_at                                 DateTime?    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updated_at                                 DateTime?    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  courses                                    courses[]
+  enrollment_enrollment_instructor_idTousers enrollment[] @relation("enrollment_instructor_idTousers")
+  enrollment_enrollment_user_idTousers       enrollment[] @relation("enrollment_user_idTousers")
+  records                                    records[]
+  reviews                                    reviews[]
+}
+
+enum course_level_type {
+  beginner
+  intermediate
+  advanced
+}
+
+enum lesson_type {
+  text
+  image
+  video
+}
+
+enum user_type {
+  student
+  instructor
+}

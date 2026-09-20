@@ -1,7 +1,7 @@
 import './App.css'
 import { Link, NavLink, Outlet } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faPaperPlane, faBars, faCircleInfo, faComputer, faHome, faPhone, faSignIn, faXmark, faUser, faGaugeHigh, faRightFromBracket, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faPaperPlane, faBars, faCircleInfo, faComputer, faHome, faPhone, faSignIn, faXmark, faUser, faGaugeHigh, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
 import WebsiteIcon from './assets/icon2.png'
 
@@ -123,7 +123,7 @@ function Footer(): React.JSX.Element {
             <button
               type="submit"
               aria-label="Subscribe"
-              className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center aspect-square"
+              className="bg-linear-to-rfrom-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center aspect-square"
             >
               <FontAwesomeIcon icon={faPaperPlane} className="text-xs" />
             </button>
@@ -207,12 +207,34 @@ after:animate-stretch-x after:origin-center after:transition
           <span>Courses</span>
         </NavLink>
 
-        <NavLink to='about'>
-          About Us
+        <NavLink to='about-us'
+        className={({ isActive }) => {
+            if (isActive) {
+              return `after:content-[''] after:w-full relative
+after:h-0.5 ${scrolled ? 'after:bg-cyan-400' : 'after:bg-white'} after:absolute after:bottom-0 after:left-0 
+after:animate-stretch-x after:origin-center after:transition
+`
+            } else {
+              return '';
+            }
+          }}
+        >
+          <span>About Us</span>
         </NavLink>
 
-        <NavLink to='contact'>
-          Contact us
+        <NavLink to='contact-us'
+          className={({ isActive }) => {
+            if (isActive) {
+              return `after:content-[''] after:w-full relative
+after:h-0.5 ${scrolled ? 'after:bg-cyan-400' : 'after:bg-white'} after:absolute after:bottom-0 after:left-0 
+after:animate-stretch-x after:origin-center after:transition
+`
+            } else {
+              return '';
+            }
+          }}
+        >
+          <span>Contact Us</span>
         </NavLink>
 
         {isUser ? <div className='relative'>
@@ -231,7 +253,7 @@ after:animate-stretch-x after:origin-center after:transition
               <FontAwesomeIcon icon={faUser} className='w-4 text-slate-500' />
               My Account
             </Link>
-            <Link to='dashboard' role='menuitem' className='flex items-center gap-3 px-4 py-2.5 hover:bg-slate-100'>
+            <Link to='/account/dashboard' role='menuitem' className='flex items-center gap-3 px-4 py-2.5 hover:bg-slate-100'>
               <FontAwesomeIcon icon={faGaugeHigh} className='w-4 text-slate-500' />
               Dashboard
             </Link>
@@ -271,9 +293,9 @@ after:animate-stretch-x after:origin-center after:transition
         </button>
       </div>
       {
-        barOpen && <div className='absolute right-0 h-screen 
-          bg-slate-800 top-0 w-52 animate-slide-left md:hidden 
-          flex flex-col items-start justify-between px-4 py-4'>
+        barOpen && <div className='fixed right-0 top-0 z-50 h-screen w-52 overflow-y-auto
+          bg-slate-800 animate-slide-left md:hidden 
+          flex flex-col items-start justify-between px-4 py-4 '>
           <div className='flex flex-col gap-4 w-full items-start'>
             <button
               onClick={() => setbarOpen(false)}
@@ -307,7 +329,7 @@ after:animate-stretch-x after:origin-center after:transition
               Courses
             </NavLink>
             
-            <NavLink to='about'
+            <NavLink to='about-us'
               className={({ isActive }) => {
                 if (isActive) {
                   return `w-full px-4 py-2 rounded-lg bg-blue-500 text-white
@@ -320,7 +342,7 @@ after:animate-stretch-x after:origin-center after:transition
               <FontAwesomeIcon icon={faCircleInfo} className='mr-2' />
               About Us
             </NavLink>
-            <NavLink to='contact'
+            <NavLink to='contact-us'
               className={({ isActive }) => {
                 if (isActive) {
                   return `w-full px-4 py-2 rounded-lg bg-blue-500 text-white
@@ -337,7 +359,7 @@ after:animate-stretch-x after:origin-center after:transition
           </div>
           {
             isUser ? <div className='w-full flex flex-col gap-4 mb-12'>
-              <NavLink to='account' className='w-full rounded-lg px-4 py-2'>
+              <NavLink to='account/dashboard' className='w-full rounded-lg px-4 py-2'>
                 <img src={WebsiteIcon} alt='Profile' className='mr-2 inline-block h-8 w-8 rounded-full object-cover align-middle' />
                 My Account
               </NavLink>
