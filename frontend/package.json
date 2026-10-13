@@ -20,7 +20,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "emoji-picker-react": "^4.19.1",
-    "flowbite-react": "^0.12.17",
+    "flowbite-react": "^0.10.2",
     "lucide-react": "^1.33.0",
     "react": "^19.2.6",
     "react-apexcharts": "^2.1.0",
