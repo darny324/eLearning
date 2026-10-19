@@ -1,10 +1,10 @@
-class Errors {
+class Errors extends Error {
 
   status: number;
-  message: string;
   constructor(status: number, message: string) {
+    super(message);
+    this.name = new.target.name;
     this.status = status;
-    this.message = message;
   }
 }
 
@@ -26,6 +26,20 @@ class AuthenticationError extends ClientError {
   constructor(message: string | null) {
     const m: string = message || "AuthenticationError:You must authorized first";
     super(401, m);
+  }
+}
+
+class AuthorizationError extends ClientError {
+  constructor(message: string | null) {
+    const m: string = message || "You are not allowed to perform this action";
+    super(403, m);
+  }
+}
+
+class ConflictError extends ClientError {
+  constructor(message: string | null) {
+    const m: string = message || "The request conflicts with existing data";
+    super(409, m);
   }
 }
 
@@ -58,5 +72,5 @@ class NotImplementedError extends ServerError {
 
 export {
   Errors, ClientError, ServerError, NotFoundError, AuthenticationError,
-  InvalidInputError, InternalServerError, NotImplementedError
+  AuthorizationError, ConflictError, InvalidInputError, InternalServerError, NotImplementedError
 }

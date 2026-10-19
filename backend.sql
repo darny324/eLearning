@@ -23,9 +23,9 @@ CREATE TABLE courses(
 	price DECIMAL(10, 2) DEFAULT 0.0, 
 	course_image VARCHAR(250) DEFAULT '', 
 	course_level course_level_type DEFAULT 'beginner', 
-	learning_outcomes TEXT[], 
-	skills TEXT[], 
-	tools TEXT[], 
+	learning_outcomes TEXT[] NOT NULL,
+	skills TEXT[] NOT NULL,
+	tools TEXT[] NOT NULL,
 	discount DECIMAL(3, 2) DEFAULT 0.0, 
 	benefits TEXT DEFAULT '', 
 	CONSTRAINT fk_users
@@ -39,6 +39,7 @@ CREATE TABLE modules (
 	title VARCHAR(250) NOT NULL,
 	description TEXT DEFAULT '', 
 	course_id uuid, 
+	module_order INTEGER NOT NULL,
 	CONSTRAINT fk_modules
 		FOREIGN KEY (course_id) 
 			REFERENCES courses(course_id)
@@ -65,7 +66,6 @@ CREATE TABLE enrollment(
 	course_id uuid REFERENCES courses(course_id), 
 	instructor_id uuid REFERENCES users(user_id), 
 	user_id uuid REFERENCES users(user_id), 
-	price DECIMAL(10, 2) DEFAULT 0.0, 
 	created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, 
 	CONSTRAINT unique_student_enrollment
 		UNIQUE(user_id, course_id)
@@ -76,6 +76,7 @@ CREATE TABLE records(
 	course_id uuid REFERENCES courses(course_id) ON DELETE CASCADE, 
 	current_module_id INT REFERENCES modules(module_id) ON DELETE CASCADE,  
 	current_lesson_id INT REFERENCES lessons(lesson_id) ON DELETE SET NULL, 
+	user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
 	created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, 
 	updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -85,6 +86,7 @@ CREATE TABLE reviews(
 	course_id uuid, 
 	user_id uuid REFERENCES users(user_id) NOT NULL, 
 	rating INT CHECK (rating >= 1 AND rating <= 5) NOT NULL, 
+	review_message TEXT DEFAULT '',
 	CONSTRAINT fk_reviews 
 		FOREIGN KEY (course_id)
 			REFERENCES courses(course_id) 
